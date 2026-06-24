@@ -1,57 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ImportAuto</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ImportAuto</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#7dd3fc,#38bdf8);
+    padding:20px;
+}
+
+.card{
+    width:100%;
+    max-width:500px;
+    background:white;
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+.logo{
+    font-size:2rem;
+    font-weight:700;
+    color:#0284c7;
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    color:#64748b;
+    margin-bottom:25px;
+}
+
+input{
+    width:100%;
+    padding:16px;
+    border:2px solid #bae6fd;
+    border-radius:15px;
+    font-size:18px;
+    text-align:center;
+    outline:none;
+}
+
+input:focus{
+    border-color:#0284c7;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:16px;
+    border:none;
+    border-radius:15px;
+    background:#0284c7;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0369a1;
+}
+
+.resultado{
+    margin-top:25px;
+    padding:20px;
+    background:#f0f9ff;
+    border-radius:15px;
+}
+
+.resultado h2{
+    color:#0284c7;
+    margin-bottom:15px;
+}
+
+.linea{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.total{
+    margin-top:20px;
+    font-size:28px;
+    font-weight:700;
+    color:#16a34a;
+}
+
+</style>
 </head>
 <body>
 
-<div class="container">
+<div class="card">
 
-    <h1>🚗 ImportAuto</h1>
-    <p class="subtitle">Calculadora de Importación de Vehículos</p>
+    <div class="logo">🚗 ImportAuto</div>
 
-    <div class="card">
+    <p class="subtitulo">
+        Calculadora de Importación de Vehículos
+    </p>
 
-        <label>Valor del vehículo (USD)</label>
-        <input type="number" id="vehiculo" placeholder="Ej: 5000">
+    <input
+        type="number"
+        id="vehiculo"
+        placeholder="Ingrese el valor del vehículo"
+    >
 
-        <label>Tipo de cambio CRC/USD</label>
-        <input type="number" id="tipoCambio" value="500">
+    <button onclick="calcular()">
+        Calcular
+    </button>
 
-        <button onclick="calcular()">Calcular</button>
+    <div class="resultado">
 
-        <div class="resultado">
+        <h2>Resultado</h2>
 
-            <div class="fila">
-                <span>Base imponible</span>
-                <span id="base">$0.00</span>
-            </div>
+        <div class="linea">
+            <span>Base imponible:</span>
+            <span id="base">$0.00</span>
+        </div>
 
-            <div class="fila">
-                <span>Impuestos (65%)</span>
-                <span id="impuestos">$0.00</span>
-            </div>
+        <div class="linea">
+            <span>Impuestos (65%):</span>
+            <span id="impuestos">$0.00</span>
+        </div>
 
-            <div class="fila total">
-                <span>Total USD</span>
-                <span id="totalUSD">$0.00</span>
-            </div>
+        <div class="linea">
+            <span>Gastos adicionales:</span>
+            <span>$1,144.00</span>
+        </div>
 
-            <div class="fila total">
-                <span>Total CRC</span>
-                <span id="totalCRC">₡0</span>
-            </div>
-
+        <div class="total" id="total">
+            $0.00
         </div>
 
     </div>
 
 </div>
 
-<script src="script.js"></script>
+<script>
+
+function formato(numero){
+    return numero.toLocaleString('en-US',{
+        style:'currency',
+        currency:'USD'
+    });
+}
+
+function calcular(){
+
+    const vehiculo =
+        parseFloat(document.getElementById('vehiculo').value) || 0;
+
+    const base =
+        vehiculo + 1375 + 100;
+
+    const impuestos =
+        base * 0.65;
+
+    const total =
+        base +
+        impuestos +
+        300 +
+        300 +
+        87 +
+        22 +
+        435;
+
+    document.getElementById('base').innerText =
+        formato(base);
+
+    document.getElementById('impuestos').innerText =
+        formato(impuestos);
+
+    document.getElementById('total').innerText =
+        formato(total);
+}
+
+</script>
 
 </body>
 </html>
