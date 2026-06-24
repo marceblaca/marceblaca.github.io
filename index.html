@@ -1,126 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ImportAuto — Calculadora de Importación de Vehículos</title>
-  <meta name="description" content="Calculadora de importación de vehículos: impuestos, flete, seguro, conversión CRC/USD y desglose completo." />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImportAuto</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <div class="wrap">
-      <h1 class="title">🚗 ImportAuto</h1>
-      <p class="subtitle">Calculadora de importación de vehículos — desglose y conversión CRC/USD</p>
-      <div class="controls-header">
-        <label class="switch">
-          <input id="themeToggle" type="checkbox" aria-label="Alternar modo oscuro">
-          <span class="slider"></span>
-        </label>
-        <button id="resetPresets" class="btn ghost" title="Restablecer presets guardados">Restablecer presets</button>
-      </div>
-    </div>
-  </header>
 
-  <main class="main">
-    <div class="wrap grid">
+<div class="container">
 
-      <section class="card form-card" aria-labelledby="calculoTitle">
-        <h2 id="calculoTitle">Entradas</h2>
+    <h1>🚗 ImportAuto</h1>
+    <p class="subtitle">Calculadora de Importación de Vehículos</p>
 
-        <label for="vehiculo">Valor del vehículo (USD)</label>
-        <input id="vehiculo" type="number" inputmode="decimal" placeholder="Ej: 5000" min="0" step="0.01" />
+    <div class="card">
 
-        <label for="tipoCambio">Tipo de cambio CRC / USD</label>
-        <input id="tipoCambio" type="number" inputmode="decimal" placeholder="Ej: 500" value="500" min="0" step="0.01" />
+        <label>Valor del vehículo (USD)</label>
+        <input type="number" id="vehiculo" placeholder="Ej: 5000">
 
-        <label for="tasaImpuesto">Impuestos (% sobre base imponible)</label>
-        <input id="tasaImpuesto" type="number" inputmode="decimal" placeholder="Ej: 65" value="65" min="0" step="0.01" />
+        <label>Tipo de cambio CRC/USD</label>
+        <input type="number" id="tipoCambio" value="500">
 
-        <label for="flete">Flete (USD)</label>
-        <input id="flete" type="number" inputmode="decimal" placeholder="Ej: 800" min="0" step="0.01" />
+        <button onclick="calcular()">Calcular</button>
 
-        <label for="seguro">Seguro (USD)</label>
-        <input id="seguro" type="number" inputmode="decimal" placeholder="Ej: 120" min="0" step="0.01" />
+        <div class="resultado">
 
-        <label for="otros">Otros gastos (USD)</label>
-        <input id="otros" type="number" inputmode="decimal" placeholder="Ej: 50" min="0" step="0.01" />
+            <div class="fila">
+                <span>Base imponible</span>
+                <span id="base">$0.00</span>
+            </div>
 
-        <div class="row">
-          <button id="calcularBtn" class="btn primary">Calcular</button>
-          <button id="copiarBtn" class="btn" title="Copiar resultados">Copiar</button>
-          <button id="descargarBtn" class="btn" title="Descargar CSV">Descargar CSV</button>
+            <div class="fila">
+                <span>Impuestos (65%)</span>
+                <span id="impuestos">$0.00</span>
+            </div>
+
+            <div class="fila total">
+                <span>Total USD</span>
+                <span id="totalUSD">$0.00</span>
+            </div>
+
+            <div class="fila total">
+                <span>Total CRC</span>
+                <span id="totalCRC">₡0</span>
+            </div>
+
         </div>
 
-        <div id="mensaje" class="mensaje" role="alert" aria-live="polite"></div>
-      </section>
-
-      <section class="card result-card" aria-labelledby="resultadoTitle">
-        <h2 id="resultadoTitle">Resultados</h2>
-
-        <div class="resultado" aria-live="polite" aria-atomic="true">
-          <div class="fila">
-            <span>Base imponible (USD)</span>
-            <strong id="baseUSD">$0.00</strong>
-          </div>
-
-          <div class="fila">
-            <span>Impuestos (%)</span>
-            <span id="impuestosPorc">0%</span>
-          </div>
-
-          <div class="fila">
-            <span>Impuestos (USD)</span>
-            <span id="impuestosUSD">$0.00</span>
-          </div>
-
-          <div class="fila">
-            <span>Flete + Seguro + Otros (USD)</span>
-            <span id="gastosAdicionalesUSD">$0.00</span>
-          </div>
-
-          <div class="fila total">
-            <span>Total (USD)</span>
-            <strong id="totalUSD">$0.00</strong>
-          </div>
-
-          <div class="fila total">
-            <span>Total (CRC)</span>
-            <strong id="totalCRC">₡0</strong>
-          </div>
-
-          <div class="fila small">
-            <span>Detalles</span>
-            <pre id="detalle" class="detalle" aria-hidden="false"></pre>
-          </div>
-        </div>
-
-        <div class="presets">
-          <label for="presetName">Guardar preset</label>
-          <div class="row">
-            <input id="presetName" placeholder="Nombre del preset (ej: Auto 1)" />
-            <button id="savePreset" class="btn">Guardar</button>
-          </div>
-          <label for="presetSelect">Presets guardados</label>
-          <div class="row">
-            <select id="presetSelect" aria-label="Presets guardados"><option value="">— Selecciona —</option></select>
-            <button id="loadPreset" class="btn">Cargar</button>
-            <button id="deletePreset" class="btn danger">Eliminar</button>
-          </div>
-        </div>
-
-      </section>
-
     </div>
-  </main>
 
-  <footer class="footer">
-    <div class="wrap">
-      <small>Hecho con ❤️ · Exporta resultados o pégalos donde necesites. · <button id="printBtn" class="link">Imprimir</button></small>
-    </div>
-  </footer>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
