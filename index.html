@@ -1,9 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>ImportAuto</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImportAuto</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>ImportAuto funciona correctamente</h1>
+
+<div class="container">
+
+    <h1>🚗 ImportAuto</h1>
+    <p class="subtitle">Calculadora de Importación de Vehículos</p>
+
+    <div class="card">
+
+        <label>Valor del vehículo (USD)</label>
+        <input type="number" id="vehiculo" placeholder="Ej: 5000">
+
+        <label>Tipo de cambio CRC/USD</label>
+        <input type="number" id="tipoCambio" value="500">
+
+        <button onclick="calcular()">Calcular</button>
+
+        <div class="resultado">
+
+            <div class="fila">
+                <span>Base imponible</span>
+                <span id="base">$0.00</span>
+            </div>
+
+            <div class="fila">
+                <span>Impuestos (65%)</span>
+                <span id="impuestos">$0.00</span>
+            </div>
+
+            <div class="fila total">
+                <span>Total USD</span>
+                <span id="totalUSD">$0.00</span>
+            </div>
+
+            <div class="fila total">
+                <span>Total CRC</span>
+                <span id="totalCRC">₡0</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
